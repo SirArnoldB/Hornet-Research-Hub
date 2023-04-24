@@ -1,0 +1,6 @@
+.register-card {
+    width: 800px;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+}
