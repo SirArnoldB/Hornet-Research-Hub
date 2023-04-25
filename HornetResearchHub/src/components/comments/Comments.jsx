@@ -5,8 +5,8 @@ import Post from "../post/Post";
 const Comments = ({ comments }) => {
   return (
     <List>
-      {comments.map((comment, index) => (
-        <ListItem key={index}>
+      {comments.map((comment) => (
+        <ListItem key={comment.id}>
           <Post post={comment} />
         </ListItem>
       ))}

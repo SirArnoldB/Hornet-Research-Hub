@@ -12,15 +12,47 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
+import supabase from "../../services/supabase/supabaseClient";
 import "./Register.css";
 
 const Register = () => {
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [avatar, setAvatar] = useState(null);
+
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const handleRegister = async (event) => {
+    event.preventDefault();
+
+    console.log("Here");
+
+    try {
+      let { data, error } = await supabase.rpc("register_user", {
+        in_avatar: avatar,
+        in_email: email,
+        in_name: name,
+        in_password: password,
+        in_username: username,
+      });
+
+      if (error) {
+        console.log(error.message);
+      } else {
+        console.log("New user registered:", data[0]);
+        alert("Successfully Registered!");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -65,7 +97,12 @@ const Register = () => {
                 required
               >
                 <InputLabel htmlFor="name">Name</InputLabel>
-                <FilledInput id="name" autoComplete="name" />
+                <FilledInput
+                  id="name"
+                  autoComplete="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
               </FormControl>
               <FormControl
                 sx={{
@@ -81,6 +118,8 @@ const Register = () => {
                   id="email"
                   aria-describedby="user-email"
                   autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <FormHelperText id="user-email" autoComplete="email">
                   We'll never share your email.
@@ -97,7 +136,12 @@ const Register = () => {
                 required
               >
                 <InputLabel htmlFor="username">Username</InputLabel>
-                <FilledInput id="username" autoComplete="username" />
+                <FilledInput
+                  id="username"
+                  autoComplete="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
               </FormControl>
               <FormControl
                 sx={{
@@ -113,6 +157,8 @@ const Register = () => {
                   id="password"
                   autoComplete="new-password"
                   type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -127,9 +173,29 @@ const Register = () => {
                   }
                 />
               </FormControl>
+              <FormControl
+                sx={{
+                  m: 2,
+                  width: "30ch",
+                  marginTop: "2rem",
+                }}
+                required
+              >
+                <FilledInput
+                  id="avatar"
+                  type="file"
+                  accept="image/*"
+                  inputProps={{ display: "none" }}
+                  onChange={(e) => setAvatar(e.target.files[0])}
+                />
+                <FormHelperText id="avatar-helper-text">
+                  Upload an avatar image (jpg, jpeg, or png)
+                </FormHelperText>
+              </FormControl>
               <Button
                 variant="contained"
                 type="submit"
+                onClick={handleRegister}
                 sx={{
                   m: 2,
                 }}

@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Grid, Divider } from "@mui/material";
+import React from "react";
+import { Grid } from "@mui/material";
 import Post from "../post/Post";
-import supabase from "../../services/supabase/supabaseClient";
 
 const Posts = ({ posts }) => {
   return (
-    <Grid>
+    <Grid
+      container
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+      spacing={2}
+    >
       {posts.map((post) => (
         <Grid key={post.id} item>
           <Post post={post} />

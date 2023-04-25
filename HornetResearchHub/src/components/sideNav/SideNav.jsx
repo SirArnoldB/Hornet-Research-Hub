@@ -22,6 +22,8 @@ import DrawerHeader from "../drawerHeader/DrawerHeader";
 import { Outlet } from "react-router-dom";
 import Link from "@mui/material/Link";
 import TopBar from "../topBar/TopBar";
+import NewPostModal from "../newPost/NewPostModal";
+import Fab from "@mui/material/Fab";
 
 export const drawerWidth = 200;
 
@@ -84,6 +86,7 @@ const Drawer = styled(MuiDrawer, {
 export default function SideNav() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const [newPostModalOpen, setNewPostModalOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -91,6 +94,14 @@ export default function SideNav() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleNewPostModalOpen = () => {
+    setNewPostModalOpen(true);
+  };
+
+  const handleNewPostModalClose = () => {
+    setNewPostModalOpen(false);
   };
 
   return (
@@ -115,9 +126,9 @@ export default function SideNav() {
         <Divider />
 
         <List>
-          {["Home", "New", "Gallery"].map((text, index) => (
+          {["Home", "Chat", "Bookmarks", "Community"].map((text, index) => (
             <Link
-              href={index === 0 ? "/" : index == 1 ? "/new" : "/gallery"}
+              href={index === 0 ? "/" : index == 1 ? "/chat" : "/Bookmarks"}
               key={text}
               sx={{
                 color: "inherit",
@@ -157,6 +168,20 @@ export default function SideNav() {
               </ListItem>
             </Link>
           ))}
+          <Divider />
+          <List>
+            <ListItem onClick={handleNewPostModalOpen}>
+              <ListItemIcon>
+                <AddCircleOutlineIcon />
+              </ListItemIcon>
+              <ListItemText primary="New" />
+            </ListItem>
+          </List>
+          <Divider />
+          <NewPostModal
+            openModal={newPostModalOpen}
+            handleModalClose={handleNewPostModalClose}
+          />
         </List>
       </Drawer>
       <Outlet />

@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "../../routes/home/Home";
 import Login from "../../routes/login/Login";
 import Register from "../../routes/register/Register";
+import PostDetails from "../post/PostDetails";
 
 const MainContent = () => {
   return (
@@ -14,6 +15,12 @@ const MainContent = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/posts">
+          <Route path=":postId">
+            <Route index element={<PostDetails />} />
+            <Route path="edit" element={<PostDetails />} />
+          </Route>
+        </Route>
       </Routes>
     </Box>
   );

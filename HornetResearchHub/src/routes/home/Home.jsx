@@ -1,29 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import Posts from "../../components/posts/Posts";
-import supabase from "../../services/supabase/supabaseClient";
 import NewPost from "../../components/newPost/NewPost";
+import { fetchPosts } from "../../utils/posts/FetchPosts";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const { data: posts, error: postsError } = await supabase
-        .from("posts")
-        .select("*")
-        .is("parent_post_id", null);
+    const getPosts = async () => {
+      const newPosts = await fetchPosts();
 
-      console.log(posts);
-      setPosts(posts);
+      setPosts(newPosts);
     };
 
-    fetchPosts();
+    getPosts();
   }, []);
 
   return (
     <Box>
-      <NewPost />
+      <NewPost newPostLabel={`What's on your mind`} fullWidth={true} />
       <Posts posts={posts} />
     </Box>
   );
