@@ -1,0 +1,7 @@
+.register-info-card {
+    width: 45vw;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

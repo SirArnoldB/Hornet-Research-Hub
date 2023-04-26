@@ -7,34 +7,19 @@ import {
   IconButton,
   Avatar,
   Typography,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  TextField,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
   Link,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ModeCommentIcon from "@mui/icons-material/ModeComment";
-import RepeatIcon from "@mui/icons-material/Repeat";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ShareIcon from "@mui/icons-material/Share";
-import LinkIcon from "@mui/icons-material/Link";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import FacebookIcon from "@mui/icons-material/Facebook";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { formatDistance } from "date-fns";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import NewPostModal from "../newPost/NewPostModal";
 import PostMenu from "../menu/PostMenu";
 import ShareMenu from "../menu/ShareMenu";
+import { Outlet } from "react-router-dom";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   marginBottom: theme.spacing(2),
@@ -43,7 +28,6 @@ const StyledCard = styled(Card)(({ theme }) => ({
   margin: "20px",
   width: 900,
   display: "table-cell",
-  // flexDirection: "column",
   "&:hover": {
     backgroundColor: "#00000014",
   },
@@ -95,11 +79,21 @@ const Post = ({ post }) => {
   };
 
   return (
-    <Link href={`/posts/${post.id}`} underline="none">
+    <>
       <StyledCard>
         <CardHeader
           avatar={<StyledAvatar src={post.user_avatar} alt={post.user_name} />}
-          title={post.title}
+          title={
+            <Link
+              href={`/posts/${post.id}`}
+              underline="none"
+              sx={{
+                color: "inherit",
+              }}
+            >
+              {post.title}
+            </Link>
+          }
           subheader={`${formatDistance(
             new Date(post.created_at),
             new Date()
@@ -118,9 +112,17 @@ const Post = ({ post }) => {
             </>
           }
         />
-        <StyledCardContent>
-          <Typography variant="body1">{post.content}</Typography>
-        </StyledCardContent>
+        <Link
+          href={`/posts/${post.id}`}
+          underline="none"
+          sx={{
+            color: "inherit",
+          }}
+        >
+          <StyledCardContent>
+            <Typography variant="body1">{post.content}</Typography>
+          </StyledCardContent>
+        </Link>
         <StyledCardActions disableSpacing>
           <IconButton aria-label="like" onClick={handleLikeClick}>
             <FavoriteIcon color="error" />
@@ -159,7 +161,8 @@ const Post = ({ post }) => {
           handleModalClose={handleNewPostModalClose}
         />
       </StyledCard>
-    </Link>
+      <Outlet />
+    </>
   );
 };
 
