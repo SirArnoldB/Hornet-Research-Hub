@@ -1,6 +1,5 @@
 const setUser = (user) => {
   return (dispatch) => {
-    console.log("Dispatching setUser action");
     dispatch({
       type: "SET_USER",
       payload: user,
@@ -8,4 +7,11 @@ const setUser = (user) => {
   };
 };
 
-export { setUser };
+const logoutUser = () => {
+  return {
+    type: "LOGOUT_USER",
+    payload: null,
+  };
+};
+
+export { setUser, logoutUser };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Auth } from "@supabase/auth-ui-react";
 import supabase from "../../services/supabase/supabaseClient";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
@@ -17,6 +17,8 @@ const UserAuth = ({ view }) => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
+
+      console.log(user);
 
       if (event === "SIGNED_IN") {
         dispatch(setUser(user));

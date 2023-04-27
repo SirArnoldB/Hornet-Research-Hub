@@ -1,10 +1,18 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
+import supabase from "../../services/supabase/supabaseClient";
+import { useSelector } from "react-redux";
 
-const NewPostModal = ({ openModal, handleModalClose }) => {
+const NewPostModal = ({
+  openModal,
+  handleModalClose,
+  postType,
+  parentPost,
+}) => {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
+  const user = useSelector((state) => state.user);
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -14,9 +22,28 @@ const NewPostModal = ({ openModal, handleModalClose }) => {
     setText(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // TODO: Handle form submission
+
+    const newPost = {
+      user_id: user.id,
+      title: title,
+      content: text,
+    };
+    if (postType === "comment") {
+      newPost.parent_post_id = parentPost.id;
+    }
+
+    const { error } = await supabase.rpc("create_post", {
+      new_post: JSON.stringify(newPost),
+      typeCasts: {
+        new_post: "jsonb",
+      },
+    });
+    if (error) {
+      console.error(error);
+    }
+
     handleModalClose();
   };
 
@@ -39,15 +66,17 @@ const NewPostModal = ({ openModal, handleModalClose }) => {
             New Post
           </Typography>
           <form onSubmit={handleSubmit}>
-            <TextField
-              id="post-title"
-              label="Title"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={title}
-              onChange={handleTitleChange}
-            />
+            {postType === "post" && (
+              <TextField
+                id="post-title"
+                label="Title"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={title}
+                onChange={handleTitleChange}
+              />
+            )}
             <TextareaAutosize
               id="post-text"
               placeholder="What's on your mind?"

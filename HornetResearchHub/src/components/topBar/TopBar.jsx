@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { styled, alpha, useTheme } from "@mui/material/styles";
+import { styled, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -14,6 +14,10 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../store/actions/userActions";
+import supabase from "../../services/supabase/supabaseClient";
+import { useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -58,6 +62,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const TopBar = ({ handleDrawerOpen, isOpen, AppBar }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -79,6 +85,33 @@ const TopBar = ({ handleDrawerOpen, isOpen, AppBar }) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleMenuItemClick = (menuItem) => {
+    handleMenuClose();
+    switch (menuItem) {
+      case "profile":
+        //TODO: (@SirArnoldB) Handle Profile logic here
+        break;
+      case "account":
+        //TODO: (@SirArnoldB) Handle My Account logic here
+        break;
+      case "logout":
+        const handleLogout = async () => {
+          const { error } = await supabase.auth.signOut();
+          if (error) {
+            console.error("Error logging out:", error.message);
+          } else {
+            dispatch(logoutUser());
+            navigate("/login", { replace: true });
+          }
+        };
+
+        handleLogout();
+        break;
+      default:
+        break;
+    }
+  };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -96,9 +129,13 @@ const TopBar = ({ handleDrawerOpen, isOpen, AppBar }) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={() => handleMenuItemClick("profile")}>
+        Profile
+      </MenuItem>
+      <MenuItem onClick={() => handleMenuItemClick("account")}>
+        My account
+      </MenuItem>
+      <MenuItem onClick={() => handleMenuItemClick("logout")}>Logout</MenuItem>
     </Menu>
   );
 

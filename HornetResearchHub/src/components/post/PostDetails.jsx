@@ -215,6 +215,7 @@ const PostDetails = () => {
                   <NewPost
                     newPostLabel={`Leave a comment...`}
                     fullWidth={false}
+                    postType={`comment`}
                   />
                 </Box>
 
@@ -225,6 +226,8 @@ const PostDetails = () => {
             <NewPostModal
               openModal={newPostModalOpen}
               handleModalClose={handleNewPostModalClose}
+              postType={`comment`}
+              parentPost={post}
             />
           </>
         </StyledCard>

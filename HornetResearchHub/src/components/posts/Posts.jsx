@@ -1,8 +1,9 @@
 import React from "react";
-import { Grid } from "@mui/material";
+import { Grid, CircularProgress } from "@mui/material";
 import Post from "../post/Post";
 
 const Posts = ({ posts }) => {
+  console.log(posts);
   return (
     <Grid
       container
@@ -11,11 +12,15 @@ const Posts = ({ posts }) => {
       alignItems="center"
       spacing={2}
     >
-      {posts.map((post) => (
-        <Grid key={post.id} item>
-          <Post post={post} />
-        </Grid>
-      ))}
+      {posts && posts.length > 0 ? (
+        posts.map((post) => (
+          <Grid key={post.id} item>
+            <Post post={post} />
+          </Grid>
+        ))
+      ) : (
+        <CircularProgress />
+      )}
     </Grid>
   );
 };

@@ -159,6 +159,8 @@ const Post = ({ post }) => {
         <NewPostModal
           openModal={newPostModalOpen}
           handleModalClose={handleNewPostModalClose}
+          postType={`comment`}
+          parentPost={post}
         />
       </StyledCard>
       <Outlet />

@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import NewPostModal from "./NewPostModal";
 
-const NewPost = ({ newPostLabel, fullWidth }) => {
+const NewPost = ({ newPostLabel, fullWidth, postType, parentPost }) => {
   const [openModal, setOpenModal] = useState(false);
   const textFieldRef = useRef(null);
 
@@ -28,7 +28,12 @@ const NewPost = ({ newPostLabel, fullWidth }) => {
           mb: 5,
         }}
       />
-      <NewPostModal openModal={openModal} handleModalClose={handleModalClose} />
+      <NewPostModal
+        openModal={openModal}
+        handleModalClose={handleModalClose}
+        postType={postType}
+        parentPost={parentPost}
+      />
     </Box>
   );
 };
