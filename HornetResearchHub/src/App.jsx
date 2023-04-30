@@ -3,11 +3,11 @@ import { BrowserRouter } from "react-router-dom";
 import SideNav from "./components/sideNav/SideNav";
 import Box from "@mui/material/Box";
 import MainContent from "./components/mainContent/MainContent";
-import { useSelector } from "react-redux";
+import { useAuth } from "./contexts/Auth";
 import "./App.css";
 
 function App() {
-  const user = useSelector((state) => state.user);
+  const { user } = useAuth();
 
   return (
     <BrowserRouter>

@@ -16,7 +16,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { formatDistance } from "date-fns";
-import NewPostModal from "../newPost/NewPostModal";
+import NewPostModal from "../new_post/NewPostModal";
 import PostMenu from "../menu/PostMenu";
 import ShareMenu from "../menu/ShareMenu";
 import { Outlet } from "react-router-dom";

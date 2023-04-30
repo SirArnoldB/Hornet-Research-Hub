@@ -19,7 +19,7 @@ import DrawerHeader from "../drawerHeader/DrawerHeader";
 import { Outlet } from "react-router-dom";
 import Link from "@mui/material/Link";
 import TopBar from "../topBar/TopBar";
-import NewPostModal from "../newPost/NewPostModal";
+import NewPostModal from "../new_post/NewPostModal";
 
 export const drawerWidth = 200;
 
@@ -79,7 +79,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function SideNav() {
+const SideNav = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [newPostModalOpen, setNewPostModalOpen] = useState(false);
@@ -185,4 +185,6 @@ export default function SideNav() {
       <Outlet />
     </>
   );
-}
+};
+
+export default SideNav;

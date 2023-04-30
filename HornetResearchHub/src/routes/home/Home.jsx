@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { Box, Tab, CircularProgress, Typography } from "@mui/material";
 import Posts from "../../components/posts/Posts";
-import NewPost from "../../components/newPost/NewPost";
+import NewPost from "../../components/new_post/NewPost";
 import { fetchPosts } from "../../utils/posts/FetchPosts";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
@@ -21,7 +21,7 @@ const Home = () => {
     switch (sortOption) {
       case "latest":
         return [...posts].sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
         );
       case "likes":
         return [...posts].sort((a, b) => b.likes - a.likes);
@@ -49,7 +49,7 @@ const Home = () => {
 
   const sortedPosts = sortPosts(posts, sortOption);
 
-  const HomePosts = () => {
+  const HomePosts = ({ category }) => {
     return (
       <Box>
         <NewPost
@@ -57,7 +57,7 @@ const Home = () => {
           fullWidth={true}
           postType={`post`}
         />
-        <Posts posts={sortedPosts} />
+        <Posts category={category} posts={sortedPosts} />
       </Box>
     );
   };
@@ -88,28 +88,28 @@ const Home = () => {
                 icon={<QuestionAnswerIcon />}
                 iconPosition="start"
                 label="Questions"
-                value="questions"
+                value="question"
               />
 
               <Tab
                 icon={<TipsAndUpdatesIcon />}
                 iconPosition="start"
                 label="Opportunities"
-                value="opportunities"
+                value="opportunity"
               />
 
               <Tab
                 icon={<ArticleIcon />}
                 iconPosition="start"
                 label="Articles"
-                value="articles"
+                value="article"
               />
 
               <Tab
                 icon={<GroupsIcon />}
                 iconPosition="start"
                 label="Need a Mentor"
-                value="mentorship"
+                value="need-a-mentor"
               />
 
               <Tab
@@ -122,22 +122,22 @@ const Home = () => {
           </Box>
           <Suspense fallback={<CircularProgress />}>
             <TabPanel value="all">
-              <HomePosts />
+              <HomePosts category={null} />
             </TabPanel>
-            <TabPanel value="questions">
-              <HomePosts />
+            <TabPanel value="question">
+              <HomePosts category={value} />
             </TabPanel>
-            <TabPanel value="opportunities">
-              <HomePosts />
+            <TabPanel value="opportunity">
+              <HomePosts category={value} />
             </TabPanel>
-            <TabPanel value="articles">
-              <HomePosts />
+            <TabPanel value="article">
+              <HomePosts category={value} />
             </TabPanel>
-            <TabPanel value="mentorship">
-              <HomePosts />
+            <TabPanel value="need-a-mentor">
+              <HomePosts category={value} />
             </TabPanel>
             <TabPanel value="collaboration">
-              <HomePosts />
+              <HomePosts category={value} />
             </TabPanel>
           </Suspense>
         </TabContext>

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Box, Button, Modal, TextField, Typography } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import NewPostModal from "./NewPostModal";
 
 const NewPost = ({ newPostLabel, fullWidth, postType, parentPost }) => {

@@ -21,14 +21,14 @@ import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { formatDistance } from "date-fns";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import NewPostModal from "../newPost/NewPostModal";
 import PostMenu from "../menu/PostMenu";
 import ShareMenu from "../menu/ShareMenu";
 import { fetchComments } from "../../utils/comments/FetchComments";
 import { useParams } from "react-router-dom";
 import { getPostById } from "../../utils/posts/FetchPost";
 import Comments from "../comments/Comments";
-import NewPost from "../newPost/NewPost";
+import NewPost from "../new_post/NewPost";
+import NewPostModal from "../new_post/NewPostModal";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   marginBottom: theme.spacing(2),
@@ -84,9 +84,8 @@ const PostDetails = () => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    console.log(postId);
     const getPost = async () => {
-      const newPost = await getPostById(parseInt(postId, 10));
+      const newPost = await getPostById(postId);
 
       setPost(newPost);
     };
@@ -96,7 +95,7 @@ const PostDetails = () => {
 
   useEffect(() => {
     const getComments = async () => {
-      const postComments = await fetchComments(parseInt(postId, 10));
+      const postComments = await fetchComments(postId);
 
       setComments(postComments);
     };
@@ -129,8 +128,6 @@ const PostDetails = () => {
   const handleNewPostModalClose = () => {
     setNewPostModalOpen(false);
   };
-
-  console.log(post);
 
   return (
     <>

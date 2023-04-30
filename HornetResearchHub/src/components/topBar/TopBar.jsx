@@ -14,10 +14,9 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { useDispatch } from "react-redux";
-import { logoutUser } from "../../store/actions/userActions";
 import supabase from "../../services/supabase/supabaseClient";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/Auth";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -62,8 +61,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const TopBar = ({ handleDrawerOpen, isOpen, AppBar }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { signOut } = useAuth();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -85,6 +84,14 @@ const TopBar = ({ handleDrawerOpen, isOpen, AppBar }) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const handleMenuItemClick = (menuItem) => {
     handleMenuClose();
     switch (menuItem) {
@@ -95,17 +102,8 @@ const TopBar = ({ handleDrawerOpen, isOpen, AppBar }) => {
         //TODO: (@SirArnoldB) Handle My Account logic here
         break;
       case "logout":
-        const handleLogout = async () => {
-          const { error } = await supabase.auth.signOut();
-          if (error) {
-            console.error("Error logging out:", error.message);
-          } else {
-            dispatch(logoutUser());
-            navigate("/login", { replace: true });
-          }
-        };
-
         handleLogout();
+        navigate("/login", { replace: true });
         break;
       default:
         break;

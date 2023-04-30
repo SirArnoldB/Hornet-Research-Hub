@@ -6,12 +6,10 @@ import Home from "../../routes/home/Home";
 import PostDetails from "../post/PostDetails";
 import UserAuth from "../../routes/auth/UserAuth";
 import ProtectedRoute from "../protected_route/ProtectedRoute";
-import { useSelector } from "react-redux";
+import { useAuth } from "../../contexts/Auth";
 
 const MainContent = () => {
-  const user = useSelector((state) => state.user);
-
-  console.log(user);
+  const { user } = useAuth();
 
   return (
     <Box component="main">
